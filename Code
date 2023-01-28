@@ -1,0 +1,85 @@
+package oasisInfobyteTasks;
+import java.util.*;
+public class NumberguessingGame {
+    static ArrayList<Integer> scoreBoard= new ArrayList<>();
+    public static void main(String[] args) {
+        NumberguessingGame ob = new NumberguessingGame();
+        ob.menu(scoreBoard);
+    }
+    public void menu(ArrayList<Integer> scoreBoard){
+        NumberguessingGame ob = new NumberguessingGame();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Welcome to the Number Guessing Game");
+        System.out.println("1)Play the game");
+        System.out.println("2)Score Board");
+        System.out.println("3)Exit the game");
+        System.out.println("--------------------");
+        try{
+            System.out.println("Select the action that you would like from above");
+            int menuselection = sc.nextInt();
+            switch(menuselection){
+                case 1:
+                    System.out.print("Enter the number's Range");
+                    int range=sc.nextInt();
+                    int randomNum = ob.randomNum(range);
+                    ob.guessNum(randomNum);
+                    break;
+                case 2:
+                    ob.displayScoreBoard();
+                    break;
+                case 3:
+                    System.out.println("\n"+"Thanks for Playing the game"+"\n");
+                    System.exit(1);
+                    break;
+                default:
+                    throw new InputMismatchException("Invalid Menu Selection");
+            }
+        }catch(InputMismatchException e){
+            System.err.println("\n"+e.getMessage()+"\n");
+        }
+
+    }
+    public int randomNum(int range){
+        Random random = new Random();
+        int randomNum = random.nextInt(range)+1;
+        return randomNum;
+    }
+    public void guessNum(int randomNum){
+        Scanner sc = new Scanner(System.in);
+        int userGuess;
+        int guess=0;
+        do{
+            System.out.println("Enter your guess number:");
+            userGuess=sc.nextInt();
+            guess++;
+            if(userGuess> randomNum){
+                System.out.println("Lower");
+            }else if(userGuess<randomNum){
+                System.out.println("Greater");
+            }
+        }while(randomNum!=userGuess);
+        System.out.println(" ");
+        if(guess==1){
+            System.out.println("answer is Correct!!in "+guess+" try!");
+        }else{
+            System.out.println("answer is right in "+ guess+" tries!");
+        }
+        scoreBoard.add(guess);
+        System.out.println(" ");
+        menu(scoreBoard);
+    }
+    public void displayScoreBoard(){
+        System.out.println("---------------");
+        System.out.println("ScoreBoard");
+        System.out.println("----------------");
+        System.out.println("Your fastest games today out of all tries is: "+"\n");
+        Collections.sort(scoreBoard);
+        for(Integer scores: scoreBoard){
+            System.out.println("Finished the number game in "+ scores+" tries");
+
+        }
+        System.out.println(" ");
+        menu(scoreBoard);
+    }
+
+}
